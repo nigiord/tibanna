@@ -376,7 +376,9 @@ def upload_output(prj):
 def upload_to_output_target(prj_out, encrypt_s3_upload=False):
     # parsing output_target and uploading output files to output target
     output_bucket = prj_out.output_bucket_directory
-    output_argnames = prj_out.output_files.keys()
+    # sorting outputs by mtime in order to upload in the right order
+    output_argnames = sorted(prj_out.output_files.keys(), key=os.path.getmtime)
+    print("argnames: ", output_argnames)
     output_target = prj_out.alt_output_target(output_argnames)
 
     for k in output_target:
