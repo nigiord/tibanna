@@ -380,8 +380,12 @@ def upload_to_output_target(prj_out, encrypt_s3_upload=False):
     output_target = prj_out.alt_output_target(output_argnames)
 
     # sorting outputs by mtime in order to upload in the right order
-    output_target = sorted(
-        output_target, key=lambda k: os.path.getmtime(k.replace('file://', ''))
+    # this fixes an issue with group jobs on snakemake
+    output_target = dict(
+        sorted(
+            output_target.items(),
+            key=lambda i: os.path.getmtime(i[0].replace('file://', ''))
+        )
     )
     for k in output_target:
         target = Target(output_bucket)
