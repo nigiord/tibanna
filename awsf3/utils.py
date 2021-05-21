@@ -380,8 +380,11 @@ def upload_to_output_target(prj_out, encrypt_s3_upload=False):
     output_argnames = sorted(prj_out.output_files.keys(), key=os.path.getmtime)
     print("argnames: ", output_argnames)
     output_target = prj_out.alt_output_target(output_argnames)
+    print("output_target: ", output_target)
 
+    print("Entering for look")
     for k in output_target:
+        print("k: ", k)
         target = Target(output_bucket)
 
         # 'file://' output targets
